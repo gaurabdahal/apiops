@@ -1,4 +1,4 @@
-apimServiceName: prod-apim-cicd
+apimServiceName: wkr-prod-apim
 namedValues:
 policies:
 loggers:
