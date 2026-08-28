@@ -1,0 +1,15 @@
+apimServiceName: prod-apim-cicd
+namedValues:
+policies:
+loggers:
+diagnostics:
+gateways:
+backends:
+groups:
+subscriptions:
+products:
+apis:
+tags:
+policyFragments:
+workspaces:
+  
