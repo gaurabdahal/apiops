@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "displayName": "Swagger-Petstore",
+    "scope": "/products/swagger-petstore",
+    "allowTracing": false,
+    "state": "active"
+  }
+}

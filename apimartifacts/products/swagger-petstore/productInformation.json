@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Swagger-Petstore",
+    "description": "Swagger Petstore API integration",
+    "approvalRequired": false,
+    "state": "published",
+    "subscriptionRequired": true
+  }
+}

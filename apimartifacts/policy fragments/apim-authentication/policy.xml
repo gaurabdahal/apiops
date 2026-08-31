@@ -1,0 +1,71 @@
+<!--
+    IMPORTANT:
+    - Policy fragment are included as-is whenever they are referenced.
+    - If using variables. Ensure they are setup before use.
+    
+Use this policy fragment at API-level for all APIs (to apply to all operations)
+
+<inbound>
+  <include-fragment fragment-id="apim-authentication" />
+  <base />
+</inbound>
+
+@author Gaurab Dahal
+-->
+<fragment>
+	<choose>
+		<when condition="@(
+                context.Request.OriginalUrl != null &&
+                context.Request.OriginalUrl.Path != null &&
+                (context.Request.OriginalUrl.Path.ToLower().Contains("/swagger.json") ||
+                context.Request.OriginalUrl.Path.ToLower().Contains("/documentation"))
+                )">
+		</when>
+		<otherwise>
+			<!-- Require Authorization: Bearer <token> We'll use this in production,. For now lets keep it here as placeholder-->
+			<validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized. Missing or invalid access token." require-scheme="Bearer" output-token-variable-name="validated-jwt">
+				<openid-config url="https://login.microsoftonline.com/d239f7ac-0435-452f-add0-90b0855cffbe/v2.0/.well-known/openid-configuration" />
+				<audiences>
+					<audience>api://f10f9a49-32cf-4908-8c8d-f2fe66f5281d</audience>
+				</audiences>
+				<issuers>
+					<issuer>https://login.microsoftonline.com/d239f7ac-0435-452f-add0-90b0855cffbe/v2.0</issuer>
+					<issuer>https://sts.windows.net/d239f7ac-0435-452f-add0-90b0855cffbe/</issuer>
+				</issuers>
+			</validate-jwt>
+			<choose>
+				<when condition="@{
+					var jwt = context.Variables.GetValueOrDefault<Jwt>("validated-jwt");
+					if (jwt == null) { return false; }
+
+					// --- app id check ---
+                    var allowedAppId = context.Variables.GetValueOrDefault<string>("allowed-app-id", "");
+		            if (string.IsNullOrEmpty(allowedAppId)) { return false; }   
+                    string callerAppId = null;
+                    string[] claimVal;
+                    if (jwt.Claims.TryGetValue("appid", out claimVal) && claimVal != null && claimVal.Length > 0) {
+                        callerAppId = claimVal[0]; // v1.0 token
+                    }
+                    else if (jwt.Claims.TryGetValue("azp", out claimVal) && claimVal != null && claimVal.Length > 0) {
+                        callerAppId = claimVal[0]; // v2.0 token
+                    }
+
+                    return !string.IsNullOrEmpty(callerAppId) &&
+                        callerAppId.Trim().Equals(allowedAppId.Trim(), StringComparison.OrdinalIgnoreCase);
+	
+				}">
+				</when>
+				<otherwise>
+					<return-response>
+						<set-status code="403" reason="Forbidden" />
+						<set-header name="Content-Type" exists-action="override">
+							<value>application/json</value>
+						</set-header>
+						<set-body>{"statusCode": 403, "message": "Forbidden. Token does not have the required permission."}</set-body>
+					</return-response>
+				</otherwise>
+			</choose>
+		</otherwise>
+	</choose>
+	<set-header name="Authorization" exists-action="delete" />
+</fragment>
