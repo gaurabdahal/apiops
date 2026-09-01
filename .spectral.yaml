@@ -1,0 +1,12 @@
+extends:
+  - https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml
+
+overrides:
+  - files:
+      - "apimartifacts/apis/echo-api/**"
+      - "apimartifacts/apis/swagger-petstore/**"
+    rules:
+      rule-important-info-fields: "off"
+      rule-path-description: "off"
+      oas3-valid-media-example: "off"
+      operation-tags: "off"
