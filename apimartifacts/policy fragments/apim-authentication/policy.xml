@@ -4,11 +4,7 @@
     - If using variables. Ensure they are setup before use.
     
 Use this policy fragment at API-level for all APIs (to apply to all operations)
-
-<inbound>
-  <include-fragment fragment-id="apim-authentication" />
-  <base />
-</inbound>
+`include-fragment fragment-id="apim-authentication" `
 
 @author Gaurab Dahal
 -->
