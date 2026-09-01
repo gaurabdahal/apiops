@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "displayName": "kv-secret2",
+    "keyVault": {
+      "secretIdentifier": "https://kv-centralus-dev-apim.vault.azure.net/secrets/afdasd"
+    },
+    "secret": true,
+    "tags": []
+  }
+}
