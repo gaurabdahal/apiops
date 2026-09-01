@@ -1,0 +1,8 @@
+{
+  "properties": {
+    "scope": "/products/starter",
+    "allowTracing": false,
+    "ownerId": "/subscriptions/a7c6e692-60ba-477b-ae40-0f59231fa046/resourceGroups/rg-centraus-wkr-dev-apim/providers/Microsoft.ApiManagement/service/wkr-dev-apim/users/1",
+    "state": "active"
+  }
+}
