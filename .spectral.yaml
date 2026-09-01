@@ -6,7 +6,9 @@ overrides:
       - "apimartifacts/apis/echo-api/**"
       - "apimartifacts/apis/swagger-petstore/**"
     rules:
+      rule-camel-case-parameter-name: "off"
       rule-important-info-fields: "off"
       rule-path-description: "off"
       oas3-valid-media-example: "off"
       operation-tags: "off"
+            
