@@ -1,0 +1,3 @@
+apis:
+  - echo-api
+  - swagger-petstore
