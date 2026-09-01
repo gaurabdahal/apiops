@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "displayName": "kv-secret1",
+    "keyVault": {
+      "secretIdentifier": "https://kv-centralus-dev-apim.vault.azure.net/secrets/secret-test"
+    },
+    "secret": true,
+    "tags": []
+  }
+}
